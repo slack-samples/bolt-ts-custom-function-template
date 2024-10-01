@@ -1,4 +1,4 @@
-import { App, BlockAction, LogLevel } from '@slack/bolt';
+import { App, type BlockAction, LogLevel } from '@slack/bolt';
 import { config } from 'dotenv';
 
 config();
@@ -51,15 +51,19 @@ app.action<BlockAction>('sample_button', async ({ body, client, complete, fail }
     // Functions should be marked as successfully completed using `complete` or
     // as having failed using `fail`, else they'll remain in an 'In progress' state.
     // Learn more at https://api.slack.com/automation/interactive-messages
+    // biome-ignore lint/style/noNonNullAssertion: we know this button comes from a function, so `fail` is available.
     await complete!({ outputs: { user_id: user.id } });
 
     await client.chat.update({
+      // biome-ignore lint/style/noNonNullAssertion: we know this button was posted to a channel, so `channel` is available.
       channel: channel!.id,
+      // biome-ignore lint/style/noNonNullAssertion: we know this button was posted to a channel, so `message` is available.
       ts: message!.ts,
       text: 'Function completed successfully!',
     });
   } catch (error) {
     console.error(error);
+    // biome-ignore lint/style/noNonNullAssertion: we know this button comes from a function, so `fail` is available.
     fail!({ error: `Failed to handle a function request: ${error}` });
   }
 });
