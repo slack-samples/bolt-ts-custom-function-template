@@ -59,12 +59,12 @@ npm install
 npm start
 ```
 
-### Linting
+### Testing
 
-Run ESLint for code formatting and linting:
+Run the TypeScript compilation, code formatting and linting:
 
 ```zsh
-npm run lint
+npm test
 ```
 
 ## Using Steps in Workflow Builder
