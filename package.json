@@ -26,7 +26,7 @@
     "url": "https://github.com/slack-samples/bolt-ts-custom-function-template/issues"
   },
   "dependencies": {
-    "@slack/bolt": "^4.0.1",
+    "@slack/bolt": "^4.1.1",
     "dotenv": "~16.4.5"
   },
   "devDependencies": {
