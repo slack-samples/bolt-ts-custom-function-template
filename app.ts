@@ -12,7 +12,7 @@ const app = new App({
 });
 
 /** Sample Function Listener */
-app.function('sample_function', async ({ client, inputs, fail }) => {
+app.function('sample_function', async ({ client, inputs, fail, logger }) => {
   try {
     const { user_id } = inputs;
 
@@ -38,13 +38,13 @@ app.function('sample_function', async ({ client, inputs, fail }) => {
       ],
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     fail({ error: `Failed to handle a function request: ${error}` });
   }
 });
 
 /** Sample Action Listener */
-app.action<BlockAction>('sample_button', async ({ body, client, complete, fail }) => {
+app.action<BlockAction>('sample_button', async ({ body, client, complete, fail, logger }) => {
   const { channel, message, user } = body;
 
   try {
@@ -62,7 +62,7 @@ app.action<BlockAction>('sample_button', async ({ body, client, complete, fail }
       text: 'Function completed successfully!',
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     // biome-ignore lint/style/noNonNullAssertion: we know this button comes from a function, so `fail` is available.
     fail!({ error: `Failed to handle a function request: ${error}` });
   }
@@ -72,8 +72,8 @@ app.action<BlockAction>('sample_button', async ({ body, client, complete, fail }
 (async () => {
   try {
     await app.start();
-    console.log('⚡️ Bolt app is running!');
+    app.logger.info('⚡️ Bolt app is running!');
   } catch (error) {
-    console.error('Failed to start the app', error);
+    app.logger.error('Failed to start the app', error);
   }
 })();
